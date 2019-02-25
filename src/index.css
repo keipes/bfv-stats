@@ -43,3 +43,8 @@ html {
 .weaponStatValue {
   text-align:left;
 }
+
+.attachment-pick {
+  font-size: 8pt;
+  text-align:left;
+}
