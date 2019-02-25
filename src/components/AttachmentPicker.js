@@ -45,8 +45,12 @@ class AttachmentPicker extends Component {
     attachmentCells(cells, weapon, tier) {
         for (let attachment of weapon.attachmentsForTier(tier)) {
             let disabled = true;
-            // Only enable attachments of the next tier available tier.
-            if (this.props.attachments.length === tier - 1) {
+            if (this.props.attachments.length === tier) {
+                if (this.props.attachments.includes(attachment)) {
+                    disabled = false;
+                }
+            } else if (this.props.attachments.length === tier - 1) {
+                // Only enable attachments of the next tier available tier.
                 if (this.props.attachments.length === 0) {
                     // No attachments yet selected, enable all tier 1 attachments.
                     disabled = false;

@@ -60,9 +60,14 @@ class WeaponStats extends Component {
 
     attachmentCallback(event) {
         const attachment = event.target.nextSibling.textContent;
+        const checked = event.target.checked;
         this.setState((state, props) => {
-            const attachments = state.attachments.slice();
-            attachments.push(attachment);
+            let attachments = state.attachments.slice();
+            if (checked) {
+                attachments.push(attachment);
+            } else {
+                attachments = attachments.filter(a => a !== attachment);
+            }
             return {attachments: attachments};
         });
         // this.setState({attachments: []});
