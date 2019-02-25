@@ -32,38 +32,7 @@ class Weapon {
     }
 
     getStatsForAttachments(attachments) {
-        return this.stats.get(Weapon.attachmentsKey(attachments));
-    }
-
-    static attachmentsKey(attachments) {
-        // console.log(attachments);
-        const words = [];
-        for (let word of attachments) {
-            words.push(word);
-        }
-        // const words = attachments.slice();
-        words.sort();
-        return words.join('');
-    }
-
-    /**
-     *
-     * @param {Array} previousAttachments
-     * @returns {Array}
-     */
-    nextTierAttachments(previousAttachments) {
-        const nextTier = [];
-        this.stats.forEach((stat, key) => {
-            if (stat.attachments.size === previousAttachments.length + 1 && stat.containsAttachments(previousAttachments)) {
-                for (let attachment of stat.attachments) {
-                    if (!previousAttachments.includes(attachment)) {
-                        nextTier.push(attachment);
-                        break;
-                    }
-                }
-            }
-        });
-        return nextTier;
+        return this.stats.get(AttachmentStats.createKey(attachments));
     }
 
     /**

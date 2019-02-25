@@ -1,11 +1,7 @@
 class AttachmentStats {
     constructor(data) {
-        const attachments = data['Attachments'].slice();
-        // sort attachments first so the joined string can be compared consistently
-        attachments.sort();
-        this.key = attachments.join('');
-        // console.log(this.key);
-        // console.log(data);
+        const attachments = data['Attachments_short'].split('+').filter(a => a !== '');
+        this.key = AttachmentStats.createKey(attachments);
         this.attachments = new Set(attachments);
         this.velocity = data['InitialSpeed'];
         this.rof = data['RoF'];
@@ -22,6 +18,15 @@ class AttachmentStats {
             }
         }
         return true;
+    }
+
+    static createKey(attachments) {
+        const words = [];
+        for (let word of attachments) {
+            words.push(word);
+        }
+        words.sort();
+        return words.join('');
     }
 }
 

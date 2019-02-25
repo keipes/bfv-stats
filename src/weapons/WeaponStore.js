@@ -19,9 +19,6 @@ class WeaponStore {
         }
         // TODO: this could be done lazily
         this.weapons.forEach((weapon, name) => {
-            // if (weapon.name === "Kar98k") {
-            //     weapon.updateAttachmentTiers();
-            // }
             weapon.updateAttachmentTiers();
         });
 

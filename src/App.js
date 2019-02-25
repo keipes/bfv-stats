@@ -13,7 +13,10 @@ class App extends Component {
         super(props);
         this.state = {
             store: new WeaponStore([]),
-            weapons: ["Kar98k", "Gewehr M95/30"]
+            weapons: [
+                "Kar98k",
+                "Gewehr M95/30"
+            ]
         };
         this.selectorCallback = this.selectorCallback.bind(this);
     }
