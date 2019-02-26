@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import AttachmentPicker from "./AttachmentPicker";
+import RecoilStats from "./statistics/RecoilStats";
 
 class WeaponStats extends Component {
 
@@ -15,6 +16,7 @@ class WeaponStats extends Component {
 
     render() {
         const weaponData = this.props.store.getWeapon(this.props.weapon);
+        const attachmentStats = weaponData === undefined ? null : weaponData.getStatsForAttachments(this.state.attachments);
         return (<Col sm={12}>
             <Row className={"weapon-stats"}>
                 <Col sm={6}>
@@ -29,7 +31,7 @@ class WeaponStats extends Component {
                     </Row>
                 </Col>
                 <Col sm={6}>
-
+                    <RecoilStats attachmentStats={attachmentStats}/>
                 </Col>
             </Row>
         </Col>);
@@ -45,6 +47,9 @@ class WeaponStats extends Component {
             statistics.push(this.statRow("RoF", stats.rof));
             statistics.push(this.statRow("Max Dmg", stats.maxDmg));
             statistics.push(this.statRow("Min Dmg", stats.minDmg));
+            statistics.push(this.statRow("Drag", stats.drag));
+            statistics.push(this.statRow("Deploy Time", stats.deployTime));
+            statistics.push(this.statRow("ADS Time", stats.adsTime));
         }
         return (<React.Fragment>
             {statistics}
@@ -68,6 +73,10 @@ class WeaponStats extends Component {
             } else {
                 attachments = attachments.filter(a => a !== attachment);
             }
+
+            const weapon = this.props.store.getWeapon(this.props.weapon);
+            weapon.getStatsForAttachments(state.attachments).logDelta(weapon.getStatsForAttachments(attachments));
+            // AttachmentStats.logDelta(, );
             return {attachments: attachments};
         });
         // this.setState({attachments: []});
