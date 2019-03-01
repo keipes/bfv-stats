@@ -3,27 +3,56 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import AttachmentPicker from "./AttachmentPicker";
 import RecoilStats from "./statistics/RecoilStats";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 class WeaponStats extends Component {
+
+    static STORAGE_KEY_WEAPONS = 'WeaponStats.Attachments';
+
+
 
     constructor(props) {
         super(props);
         this.state = {
-            attachments: []
+            attachments: this.props.attachments
         };
         this.attachmentCallback = this.attachmentCallback.bind(this);
     }
 
+    // /**
+    //  *
+    //  * @param {Array} attachments
+    //  */
+    // storeAttachments(attachments) {
+    //     localStorage.setItem(this.attachmentsKey(), JSON.stringify(this.state.attachments))
+    // }
+    //
+    // attachmentsKey() {
+    //     return "WeaponStats.AttachmentKey." + this.props.identifier
+    // }
+    //
+    // loadAttachments() {
+    //     const storedAttachments = localStorage.getItem(this.attachmentsKey());
+    //     if (storedAttachments == null) {
+    //         return [];
+    //     }
+    //     console.log(storedAttachments);
+    //     return JSON.parse(storedAttachments);
+    // }
+
     render() {
         const weaponData = this.props.store.getWeapon(this.props.weapon);
-        const attachmentStats = weaponData === undefined ? null : weaponData.getStatsForAttachments(this.state.attachments);
-        return (<Col sm={12}>
-            <Row className={"weapon-stats"}>
+        const attachmentStats = weaponData === undefined ? null : weaponData.getStatsForAttachments(this.props.attachments);
+        return (<Col sm={12} className={"weapon-stats"}>
+            <Row >
                 <Col sm={6}>
                     <Row>
                         <Col sm={6}>
                             <Row><Col><h3>{this.props.weapon}</h3></Col></Row>
-                            <AttachmentPicker attachmentCallback={this.attachmentCallback} weaponData={weaponData} attachments={this.state.attachments}/>
+                            <AttachmentPicker attachmentCallback={this.attachmentCallback}
+                                              weaponData={weaponData}
+                                              attachments={this.props.attachments}/>
                         </Col>
                         <Col sm={6}>
                             {this.displayStats(weaponData)}
@@ -33,8 +62,27 @@ class WeaponStats extends Component {
                 <Col sm={6}>
                     <RecoilStats attachmentStats={attachmentStats}/>
                 </Col>
+
             </Row>
+            <Row>
+                <Col sm={12}>
+                    <ButtonGroup>
+                        <Button variant={"outline-success"} size={"sm"}
+                                onClick={this.props.clearAttachments}>Reset</Button>
+                        <Button variant={"outline-info"} size={"sm"}
+                                onClick={this.props.duplicateCallback}>Duplicate</Button>
+                        <Button variant={"outline-danger"} size={"sm"}
+                                onClick={this.props.removeCallback}>Remove</Button>
+                    </ButtonGroup>
+                </Col>
+            </Row>
+
         </Col>);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const weapon = this.props.store.getWeapon(this.props.weapon);
+        weapon.getStatsForAttachments(this.props.attachments).logDelta(weapon.getStatsForAttachments(prevProps.attachments));
     }
 
     displayStats(weaponData) {
@@ -42,7 +90,7 @@ class WeaponStats extends Component {
         if (weaponData !== undefined) {
             // console.log(weaponData.levelOneAttachments());
             // console.log(weaponData.nextTierAttachments([]));
-            const stats = weaponData.getStatsForAttachments(this.state.attachments);
+            const stats = weaponData.getStatsForAttachments(this.props.attachments);
             statistics.push(this.statRow("Velocity", stats.velocity));
             statistics.push(this.statRow("RoF", stats.rof));
             statistics.push(this.statRow("Max Dmg", stats.maxDmg));
@@ -66,20 +114,11 @@ class WeaponStats extends Component {
     attachmentCallback(event) {
         const attachment = event.target.nextSibling.textContent;
         const checked = event.target.checked;
-        this.setState((state, props) => {
-            let attachments = state.attachments.slice();
-            if (checked) {
-                attachments.push(attachment);
-            } else {
-                attachments = attachments.filter(a => a !== attachment);
-            }
-
-            const weapon = this.props.store.getWeapon(this.props.weapon);
-            weapon.getStatsForAttachments(state.attachments).logDelta(weapon.getStatsForAttachments(attachments));
-            // AttachmentStats.logDelta(, );
-            return {attachments: attachments};
-        });
-        // this.setState({attachments: []});
+        if (checked) {
+            this.props.addAttachment(attachment);
+        } else {
+            this.props.removeAttachment(attachment);
+        }
     }
 
 }

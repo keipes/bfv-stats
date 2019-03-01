@@ -20,10 +20,11 @@ class Selector extends Component {
     render() {
         return (
             <Row className={"selector"}>
-                <Col>
+                <Col sm={4}>
+                    {/*<h2 className={'selector-header'}>Add Weapon</h2>*/}
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Group as={Row}>
-                            <Form.Label column sm={"3"}>Filter By Class</Form.Label>
+                            <Form.Label column sm={"3"} className={'selector-label'}>Class</Form.Label>
                             <Col sm={"9"}>
                                 <Form.Control as={"select"} onChange={this.handleClassChange}>
                                     <option value={0}/>
@@ -37,8 +38,8 @@ class Selector extends Component {
 
                         </Form.Group>
                         <Form.Group as={Row}>
-                            <Form.Label column sm={3}>Weapon</Form.Label>
-                            <Col sm={"9"}>
+                            <Form.Label column sm={3} className={'selector-label'}>Weapon</Form.Label>
+                            <Col sm={9}>
                                 <Form.Control as={"select"} onChange={this.handleWeaponChange}>
                                     {this.getOptions()}
                                 </Form.Control>

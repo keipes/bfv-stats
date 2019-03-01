@@ -1,3 +1,7 @@
+body, html {
+    height:100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -8,6 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   color: #f3f3f3;
+    background-color: #161616;
 }
 
 code {
@@ -17,22 +22,26 @@ code {
 
 
 .the-container {
-  background-color: #252525;
-}
-
-html {
-  background-color: #000;
+  /*background-color: #252525;*/
 }
 
 .selector {
-  background-color: #161616;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  background-color: #252525;
   padding: 1em;
-  border-radius: 1em;
+  border-radius: .2em;
+    box-shadow: .2em .4em .5em  rgba(0, 0, 0, .5);
+
 }
 
 .weapon-stats {
-  background-color: #161616;
+  background-color: #252525;
   margin-top: 1em;
+    border-radius: .2em;
+    box-shadow: .2em .4em .5em  rgba(0, 0, 0, .5);
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 .weaponStatLabel {
@@ -51,4 +60,12 @@ html {
 
 .recoilStats {
   font-size: 8pt;
+}
+
+.selector-header {
+    /*text-align:center;*/
+}
+
+.selector-label {
+    text-align:right;
 }

@@ -70,6 +70,7 @@ class AttachmentPicker extends Component {
                     onChange={this.props.attachmentCallback}
                     className={"attachment-pick"}
                     disabled={disabled}
+                    checked={this.props.attachments.includes(attachment)}
                 /></Col>);
         }
     }
