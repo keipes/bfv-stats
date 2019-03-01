@@ -24,6 +24,8 @@ class AttachmentStats {
         this.drag = data['Drag'];
         this.deployTime = data['DeployTime'];
         this.adsTime = data['AimingFovTransitionTime'];
+        this.distances = data['Dmg_distances'];
+        this.damages = data['Damages'];
         this.data = data;
     }
 

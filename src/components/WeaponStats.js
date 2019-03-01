@@ -5,6 +5,7 @@ import AttachmentPicker from "./AttachmentPicker";
 import RecoilStats from "./statistics/RecoilStats";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import DamageGraph from "./graphs/DamageGraph";
 
 class WeaponStats extends Component {
 
@@ -61,6 +62,11 @@ class WeaponStats extends Component {
                 </Col>
                 <Col sm={6}>
                     <RecoilStats attachmentStats={attachmentStats}/>
+                    <Row>
+                        <Col sm={12}>
+                            <DamageGraph stats={attachmentStats}/>
+                        </Col>
+                    </Row>
                 </Col>
 
             </Row>
